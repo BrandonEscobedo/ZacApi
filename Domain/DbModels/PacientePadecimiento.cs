@@ -1,0 +1,20 @@
+﻿using Domain.DbModels.Pacientes;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.DbModels
+{
+    public class PacientePadecimiento
+    {
+        [Key]
+        public Guid IdPacientePadecimiento { get; set; }
+        public Guid IdPaciente { get; set; }
+        public Paciente Paciente { get; set; }
+        public int IdPadecimiento { get; set; }
+        public Padecimiento Padecimiento { get; set; }
+    }
+}

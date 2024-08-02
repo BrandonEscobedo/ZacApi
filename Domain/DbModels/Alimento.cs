@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.DbModels
+﻿namespace Domain.DbModels
 {
     public class Alimento
     {
-        public int IdAlimento { get; set; }
-        public int Cantidad { get; set; }
-        public int IdCategoria { get; set; }
-        public Unidad Unidad { get; set; }
-        public string Nombre { get; set; } = string.Empty;
+
+        public int? IdAlimento { get; private set; }
+        public int Cantidad { get; private set; }
+        public int IdCategoria { get; private set; }
+        public Unidad Unidad { get; private set; }
+        public string Nombre { get; private set; } = string.Empty;
         public CategoriaAlimento? categoriaAlimentoNav { get; set; }
+        public Alimento(int cantidad, int idCategoria, Unidad unidad, string nombre)
+        {
+            Cantidad = cantidad;
+            IdCategoria = idCategoria;
+            Unidad = unidad;
+            Nombre = nombre;
+        }
     }
 }
