@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Utility;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Application.DependencyInjection
     {
         public static IServiceCollection AddServiceApplication(this IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(AutoMapperApplicationProfile));
             services.AddMediatR(config =>
             {
                 config.RegisterServicesFromAssemblies(typeof(ServiceContainerApplication).Assembly);

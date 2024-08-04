@@ -16,6 +16,7 @@ if (app.Environment.IsDevelopment())
 app.ApplyMigration();
 app.UseHttpsRedirection();
 app.CategoriaAlimentosEndPoints();
+app.PacienteEndPoints();
 app.AlimentosEndPoints();
 app.Run();
 

@@ -13,9 +13,8 @@ namespace Domain.DbModels.Pacientes
         public Guid IdPacienteContacto { get; set; }
         public Guid IdPaciente { get; set; }
         public Paciente Paciente { get; set; }
-
-        public string Ocupacion { get; set; }
-        public string Correo { get; set; }
+        public string Ocupacion { get; set; } 
+        public string Correo { get; set; } 
         public int Telefono { get; set; }
         public decimal GastoSemanal { get;  set; }
 

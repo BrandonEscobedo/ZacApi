@@ -1,4 +1,6 @@
-﻿namespace Domain.DbModels
+﻿using Domain.Enums;
+
+namespace Domain.DbModels
 {
     public class Alimento
     {

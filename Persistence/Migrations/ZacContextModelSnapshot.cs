@@ -105,6 +105,10 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Estatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("timestamp with time zone");
 
@@ -181,7 +185,6 @@ namespace Persistence.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.Property<string>("SegundoNombre")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
@@ -200,22 +203,18 @@ namespace Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("AntecedentesFamiliares")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("AntecedentesPersonales")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("IdPaciente")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Signos")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Sintomas")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("IdPacienteSintomas");

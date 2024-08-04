@@ -16,10 +16,10 @@ namespace Domain.DbModels.Pacientes
         public Paciente Paciente { get; set; }
 
         //Convertir a text en Ef para postgreSQL
-        public string Signos { get;  set; }
-        public string Sintomas { get;  set; }
-        public string AntecedentesFamiliares { get;  set; }
-        public string AntecedentesPersonales { get;  set; }
+        public string? Signos { get; set; }
+        public string? Sintomas { get; set; }
+        public string? AntecedentesFamiliares { get; set; }
+        public string? AntecedentesPersonales { get; set; }
 
     }
 }

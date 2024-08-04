@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,9 +10,10 @@ namespace Domain.DbModels.Pacientes
 {
     public class Paciente
     {
-        public Guid IdPaciente { get;private  set; }
+        public Guid IdPaciente { get; private set; }
+        public EstadoPaciente Estatus { get; private set; }
         public DateTime FechaCreacion { get; private set; }
-        public PacientePersonales Personales { get; private set; }  
+        public PacientePersonales Personales { get; private set; }
         public PacienteContacto Contacto { get; private set; }
         public PacienteSintomasAntecedentes SintomasAntecedentes { get; private set; }
         [NotMapped]
@@ -26,23 +28,24 @@ namespace Domain.DbModels.Pacientes
             Personales = pacientePersonales;
             Contacto = pacienteContacto;
             SintomasAntecedentes = sintomasAntecedentes;
-            FechaCreacion=DateTime.Now;
+            Estatus = EstadoPaciente.Activo;
+            FechaCreacion = DateTime.Now;
             _pacientePadecimientos = new List<PacientePadecimiento>();
         }
         public Paciente()
         {
-            
+
         }
         public void AddPadecimiento(Padecimiento padecimiento)
         {
-            var pacientePadecimiento = new PacientePadecimiento
-            {
-                IdPaciente = this.IdPaciente,
-                Paciente = this,
-                IdPadecimiento = padecimiento.IdPadecimiento,
-                Padecimiento = padecimiento
-            };
-            _pacientePadecimientos.Add(pacientePadecimiento);
+                var pacientePadecimiento = new PacientePadecimiento
+                {
+                    IdPaciente = this.IdPaciente,
+                    IdPadecimiento = padecimiento.IdPadecimiento,
+                };
+                _pacientePadecimientos.Add(pacientePadecimiento);
+            
+
         }
         public void ModificarDatosPersonales(PacientePersonales personales)
         {

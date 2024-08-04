@@ -9,11 +9,23 @@ namespace Domain.DbModels
 {
     public class Padecimiento
     {
-
-        public int IdPadecimiento { get; set; }
-        public string Nombre { get;  set; }
-        public string Descripcion { get ;  set; }
+        [Key]
+        public int IdPadecimiento { get;private set; }
+        public string Nombre { get;private set; } = string.Empty;
+        public string Descripcion { get ;private  set; }=string.Empty;
         public ICollection<PacientePadecimiento>? PacientePadecimientos { get; set; }
+        private Padecimiento()
+        {
+            
+        }
+        internal static Padecimiento Create(string nombre,string descripcion)
+        {
+            return new Padecimiento
+            {
+                Nombre = nombre,
+                Descripcion = descripcion
+            };
+        }
 
     }
 }

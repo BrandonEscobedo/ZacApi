@@ -15,6 +15,7 @@ namespace Persistence.DependencyInjection
             services.AddDbContext<ZacContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<ICategoriaAlimentoRepository, CategoriaAlimentoRepository>();
             services.AddScoped<IAlimentoRepository, AlimentoRepository>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
             return services;
         }
     }

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DbModels
+namespace Domain.Enums
 {
-    public enum Genero
+    public enum EstadoPaciente
     {
-        Hombre,
-        Mujer,
-        Otro
+        Activo,
+        Inactivo
     }
 }

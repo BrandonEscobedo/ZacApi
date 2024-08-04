@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.DbModels.Pacientes;
 using System.Reflection.Emit;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Persistence.ContextDb
 {
@@ -29,7 +30,19 @@ namespace Persistence.ContextDb
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<PacienteContacto>(entity =>
+            var dateTimeConverter= new ValueConverter<DateTime, DateTime>(v=>v.ToUniversalTime(), v=>DateTime.SpecifyKind(v, DateTimeKind.Utc));
+            foreach (var entityType in builder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetValueConverter(dateTimeConverter);
+                    }
+                }
+
+            }
+                builder.Entity<PacienteContacto>(entity =>
             {
                 entity.Property(x => x.Correo).HasMaxLength(256);
                 entity.Property(x => x.GastoSemanal).HasColumnType("decimal(10,2)");
@@ -57,6 +70,8 @@ namespace Persistence.ContextDb
                 entity.HasOne(x => x.SintomasAntecedentes)
                     .WithOne(p => p.Paciente)
                     .HasForeignKey<PacienteSintomasAntecedentes>(x => x.IdPaciente).OnDelete(DeleteBehavior.Cascade);
+
+                entity.Property(x => x.Estatus).HasConversion<string>();
             });
            
             builder.Entity<Alimento>(entity =>
@@ -82,6 +97,7 @@ namespace Persistence.ContextDb
             builder.Entity<PacientePadecimiento>(entity =>
             {
                 entity.HasKey(p => p.IdPacientePadecimiento);
+
                 entity.HasOne(x=>x.Paciente)
                 .WithMany(p=>p.PacientePadecimientos)
                 .HasForeignKey(p=>p.IdPaciente);
@@ -97,6 +113,7 @@ namespace Persistence.ContextDb
                 entity.Property(p => p.IdPadecimiento).ValueGeneratedOnAdd();
                 entity.Property(p => p.Nombre).IsRequired().HasMaxLength(100);
                 entity.Property(p => p.Descripcion).HasMaxLength(500);
+                entity.HasIndex(p => p.Nombre).IsUnique();
             });
 
         }

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DbModels
+namespace Domain.Enums
 {
-    public enum Unidad
+    public enum Genero
     {
-        Kg,
-        G,
-        Onzas
+        Hombre,
+        Mujer,
+        Otro
     }
 }

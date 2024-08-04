@@ -31,6 +31,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     IdPaciente = table.Column<Guid>(type: "uuid", nullable: false),
+                    Estatus = table.Column<string>(type: "text", nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -106,7 +107,7 @@ namespace Persistence.Migrations
                     Genero = table.Column<string>(type: "text", nullable: false),
                     Edad = table.Column<short>(type: "smallint", nullable: false),
                     PrimerNombre = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    SegundoNombre = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    SegundoNombre = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     PrimerApellido = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     SegundoApellido = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
                 },
@@ -127,10 +128,10 @@ namespace Persistence.Migrations
                 {
                     IdPacienteSintomas = table.Column<Guid>(type: "uuid", nullable: false),
                     IdPaciente = table.Column<Guid>(type: "uuid", nullable: false),
-                    Signos = table.Column<string>(type: "text", nullable: false),
-                    Sintomas = table.Column<string>(type: "text", nullable: false),
-                    AntecedentesFamiliares = table.Column<string>(type: "text", nullable: false),
-                    AntecedentesPersonales = table.Column<string>(type: "text", nullable: false)
+                    Signos = table.Column<string>(type: "text", nullable: true),
+                    Sintomas = table.Column<string>(type: "text", nullable: true),
+                    AntecedentesFamiliares = table.Column<string>(type: "text", nullable: true),
+                    AntecedentesPersonales = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

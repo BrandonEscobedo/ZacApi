@@ -1,5 +1,6 @@
 ﻿using Domain.Abstractions;
 using Domain.DbModels;
+using Domain.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
