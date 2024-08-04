@@ -1,11 +1,5 @@
 ﻿using Domain.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Domain.DbModels.Pacientes
 {
     public class Paciente
@@ -36,27 +30,26 @@ namespace Domain.DbModels.Pacientes
         {
 
         }
-        public void AddPadecimiento(Padecimiento padecimiento)
+        public void AddPadecimiento(int  Idpadecimiento)
         {
+            if (Idpadecimiento != 0)
+            {
                 var pacientePadecimiento = new PacientePadecimiento
                 {
                     IdPaciente = this.IdPaciente,
-                    IdPadecimiento = padecimiento.IdPadecimiento,
+                    IdPadecimiento = Idpadecimiento,
                 };
                 _pacientePadecimientos.Add(pacientePadecimiento);
-            
-
+            }       
         }
         public void ModificarDatosPersonales(PacientePersonales personales)
         {
             Personales = personales;
         }
-
         public void ModificarDatosContacto(PacienteContacto contacto)
         {
             Contacto = contacto;
         }
-
         public void ModificarSintomasAntecedentes(PacienteSintomasAntecedentes sintomasAntecedentes)
         {
             SintomasAntecedentes = sintomasAntecedentes;

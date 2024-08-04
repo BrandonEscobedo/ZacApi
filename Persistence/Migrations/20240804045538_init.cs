@@ -79,7 +79,6 @@ namespace Persistence.Migrations
                 name: "PacienteContacto",
                 columns: table => new
                 {
-                    IdPacienteContacto = table.Column<Guid>(type: "uuid", nullable: false),
                     IdPaciente = table.Column<Guid>(type: "uuid", nullable: false),
                     Ocupacion = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Correo = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
@@ -88,7 +87,7 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PacienteContacto", x => x.IdPacienteContacto);
+                    table.PrimaryKey("PK_PacienteContacto", x => x.IdPaciente);
                     table.ForeignKey(
                         name: "FK_PacienteContacto_Paciente_IdPaciente",
                         column: x => x.IdPaciente,
@@ -101,7 +100,6 @@ namespace Persistence.Migrations
                 name: "PacientePersonales",
                 columns: table => new
                 {
-                    IdPacientePersonales = table.Column<Guid>(type: "uuid", nullable: false),
                     IdPaciente = table.Column<Guid>(type: "uuid", nullable: false),
                     FechaNacimiento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Genero = table.Column<string>(type: "text", nullable: false),
@@ -113,7 +111,7 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PacientePersonales", x => x.IdPacientePersonales);
+                    table.PrimaryKey("PK_PacientePersonales", x => x.IdPaciente);
                     table.ForeignKey(
                         name: "FK_PacientePersonales_Paciente_IdPaciente",
                         column: x => x.IdPaciente,
@@ -126,7 +124,6 @@ namespace Persistence.Migrations
                 name: "PacienteSintomasAntecedentes",
                 columns: table => new
                 {
-                    IdPacienteSintomas = table.Column<Guid>(type: "uuid", nullable: false),
                     IdPaciente = table.Column<Guid>(type: "uuid", nullable: false),
                     Signos = table.Column<string>(type: "text", nullable: true),
                     Sintomas = table.Column<string>(type: "text", nullable: true),
@@ -135,7 +132,7 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PacienteSintomasAntecedentes", x => x.IdPacienteSintomas);
+                    table.PrimaryKey("PK_PacienteSintomasAntecedentes", x => x.IdPaciente);
                     table.ForeignKey(
                         name: "FK_PacienteSintomasAntecedentes_Paciente_IdPaciente",
                         column: x => x.IdPaciente,
@@ -148,13 +145,12 @@ namespace Persistence.Migrations
                 name: "PacientePadecimientos",
                 columns: table => new
                 {
-                    IdPacientePadecimiento = table.Column<Guid>(type: "uuid", nullable: false),
                     IdPaciente = table.Column<Guid>(type: "uuid", nullable: false),
                     IdPadecimiento = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PacientePadecimientos", x => x.IdPacientePadecimiento);
+                    table.PrimaryKey("PK_PacientePadecimientos", x => new { x.IdPaciente, x.IdPadecimiento });
                     table.ForeignKey(
                         name: "FK_PacientePadecimientos_Paciente_IdPaciente",
                         column: x => x.IdPaciente,
@@ -181,31 +177,14 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PacienteContacto_IdPaciente",
-                table: "PacienteContacto",
-                column: "IdPaciente",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PacientePadecimientos_IdPaciente",
-                table: "PacientePadecimientos",
-                column: "IdPaciente");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PacientePadecimientos_IdPadecimiento",
                 table: "PacientePadecimientos",
                 column: "IdPadecimiento");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PacientePersonales_IdPaciente",
-                table: "PacientePersonales",
-                column: "IdPaciente",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PacienteSintomasAntecedentes_IdPaciente",
-                table: "PacienteSintomasAntecedentes",
-                column: "IdPaciente",
+                name: "IX_Padecimientos_Nombre",
+                table: "Padecimientos",
+                column: "Nombre",
                 unique: true);
         }
 

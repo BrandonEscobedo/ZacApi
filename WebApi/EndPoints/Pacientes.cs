@@ -8,7 +8,7 @@ namespace WebApi.EndPoints
     {
         public static void PacienteEndPoints(this IEndpointRouteBuilder app)
         {
-            var group = app.MapGroup("api/v1/Paciente");
+            var group = app.MapGroup("api/V1/Paciente");
             group.MapPost("", async (PacienteRequest pacienteResquest, ISender send) =>
             {
                 await send.Send(new AddPacienteCommand(pacienteResquest));

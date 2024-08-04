@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,8 @@ namespace Domain.DbModels.Pacientes
     //[table] Cambiar nombre de tabla en EF
     public class PacienteSintomasAntecedentes
     {
-        [Key]
-        public Guid IdPacienteSintomas { get;  set; }
+        [Key, ForeignKey("Paciente")]
+
         public Guid IdPaciente { get; set; }
         public Paciente Paciente { get; set; }
 

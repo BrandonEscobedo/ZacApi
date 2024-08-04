@@ -62,14 +62,17 @@ namespace Persistence.ContextDb
 
                 entity.HasOne(x => x.Personales)
                     .WithOne(p => p.Paciente)
-                    .HasForeignKey<PacientePersonales>(x => x.IdPaciente).OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey<PacientePersonales>(x => x.IdPaciente)
+                    .OnDelete(DeleteBehavior.Cascade);
                 
                 entity.HasOne(x => x.Contacto)
                     .WithOne(p => p.Paciente)
-                    .HasForeignKey<PacienteContacto>(x => x.IdPaciente).OnDelete(DeleteBehavior.Cascade); ;
+                    .HasForeignKey<PacienteContacto>(x => x.IdPaciente)
+                    .OnDelete(DeleteBehavior.Cascade); ;
                 entity.HasOne(x => x.SintomasAntecedentes)
                     .WithOne(p => p.Paciente)
-                    .HasForeignKey<PacienteSintomasAntecedentes>(x => x.IdPaciente).OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey<PacienteSintomasAntecedentes>(x => x.IdPaciente)
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Property(x => x.Estatus).HasConversion<string>();
             });
@@ -96,7 +99,7 @@ namespace Persistence.ContextDb
             });
             builder.Entity<PacientePadecimiento>(entity =>
             {
-                entity.HasKey(p => p.IdPacientePadecimiento);
+                entity.HasKey(p => new {p.IdPaciente,p.IdPadecimiento});
 
                 entity.HasOne(x=>x.Paciente)
                 .WithMany(p=>p.PacientePadecimientos)

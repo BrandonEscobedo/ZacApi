@@ -38,14 +38,14 @@ namespace Application.Pacientes.AddPaciente
                                                  let padecimiento = _mapper.Map<Padecimiento>(padecimientoDto)
                                                  select padecimiento)
                     {
-                        paciente.AddPadecimiento(padecimiento);
+                        paciente.AddPadecimiento(padecimiento.IdPadecimiento);
                     }
                 }           
                 await _pacienteRepository.AddPacienteAsync(paciente);
             }
             catch (Exception ex)
             {
-
+                throw new Exception(ex.Message);
             }
 
         }

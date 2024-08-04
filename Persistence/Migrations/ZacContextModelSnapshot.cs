@@ -80,19 +80,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.DbModels.PacientePadecimiento", b =>
                 {
-                    b.Property<Guid>("IdPacientePadecimiento")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("IdPaciente")
                         .HasColumnType("uuid");
 
                     b.Property<int>("IdPadecimiento")
                         .HasColumnType("integer");
 
-                    b.HasKey("IdPacientePadecimiento");
-
-                    b.HasIndex("IdPaciente");
+                    b.HasKey("IdPaciente", "IdPadecimiento");
 
                     b.HasIndex("IdPadecimiento");
 
@@ -119,8 +113,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.DbModels.Pacientes.PacienteContacto", b =>
                 {
-                    b.Property<Guid>("IdPacienteContacto")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("IdPaciente")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Correo")
@@ -131,9 +124,6 @@ namespace Persistence.Migrations
                     b.Property<decimal>("GastoSemanal")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<Guid>("IdPaciente")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Ocupacion")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -142,18 +132,14 @@ namespace Persistence.Migrations
                     b.Property<int>("Telefono")
                         .HasColumnType("integer");
 
-                    b.HasKey("IdPacienteContacto");
-
-                    b.HasIndex("IdPaciente")
-                        .IsUnique();
+                    b.HasKey("IdPaciente");
 
                     b.ToTable("PacienteContacto");
                 });
 
             modelBuilder.Entity("Domain.DbModels.Pacientes.PacientePersonales", b =>
                 {
-                    b.Property<Guid>("IdPacientePersonales")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("IdPaciente")
                         .HasColumnType("uuid");
 
                     b.Property<short>("Edad")
@@ -165,9 +151,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Genero")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid>("IdPaciente")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("PrimerApellido")
                         .IsRequired()
@@ -188,18 +171,14 @@ namespace Persistence.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.HasKey("IdPacientePersonales");
-
-                    b.HasIndex("IdPaciente")
-                        .IsUnique();
+                    b.HasKey("IdPaciente");
 
                     b.ToTable("PacientePersonales");
                 });
 
             modelBuilder.Entity("Domain.DbModels.Pacientes.PacienteSintomasAntecedentes", b =>
                 {
-                    b.Property<Guid>("IdPacienteSintomas")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("IdPaciente")
                         .HasColumnType("uuid");
 
                     b.Property<string>("AntecedentesFamiliares")
@@ -208,19 +187,13 @@ namespace Persistence.Migrations
                     b.Property<string>("AntecedentesPersonales")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("IdPaciente")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Signos")
                         .HasColumnType("text");
 
                     b.Property<string>("Sintomas")
                         .HasColumnType("text");
 
-                    b.HasKey("IdPacienteSintomas");
-
-                    b.HasIndex("IdPaciente")
-                        .IsUnique();
+                    b.HasKey("IdPaciente");
 
                     b.ToTable("PacienteSintomasAntecedentes");
                 });
@@ -244,6 +217,9 @@ namespace Persistence.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("IdPadecimiento");
+
+                    b.HasIndex("Nombre")
+                        .IsUnique();
 
                     b.ToTable("Padecimientos");
                 });

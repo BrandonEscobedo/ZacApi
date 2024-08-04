@@ -10,8 +10,6 @@ namespace Domain.DbModels
 {
     public class PacientePadecimiento
     {
-        [Key]
-        public Guid IdPacientePadecimiento { get; set; }
         public Guid IdPaciente { get; set; }
         public Paciente? Paciente { get; set; }
         public int IdPadecimiento { get; set; }
