@@ -1,5 +1,7 @@
 ﻿using Application.DTO.Request.Pacientes;
-using Application.Pacientes.AddPaciente;
+using Application.Pacientes.Command.AddPaciente;
+using Application.Pacientes.Query.GetPacienteById;
+using Domain.DbModels.Pacientes;
 using MediatR;
 
 namespace WebApi.EndPoints
@@ -13,6 +15,15 @@ namespace WebApi.EndPoints
             {
                 await send.Send(new AddPacienteCommand(pacienteResquest));
                 return Results.Ok();
+            });
+            group.MapGet("/{IdPaciente}", async (Guid IdPaciente, ISender send) =>
+            {
+                var response = await send.Send(new GetPacienteByidQuery(IdPaciente));
+                if (response != null)
+                {
+                    return Results.Ok(response);
+                }
+                return Results.BadRequest(IdPaciente);
             });
         }
     }

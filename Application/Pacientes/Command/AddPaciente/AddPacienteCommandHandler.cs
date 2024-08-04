@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace Application.Pacientes.AddPaciente
+namespace Application.Pacientes.Command.AddPaciente
 {
     internal class AddPacienteCommandHandler(IPacienteRepository _pacienteRepository, IMapper _mapper) : IRequestHandler<AddPacienteCommand>
     {
@@ -32,7 +32,7 @@ namespace Application.Pacientes.AddPaciente
                     pacientePersonales,
                     pacienteContacto,
                     pacienteSintomas);
-                if (request.Paciente.PadecimientosRequest!=null)
+                if (request.Paciente.PadecimientosRequest != null)
                 {
                     foreach (var padecimiento in from padecimientoDto in request.Paciente.PadecimientosRequest
                                                  let padecimiento = _mapper.Map<Padecimiento>(padecimientoDto)
@@ -40,7 +40,7 @@ namespace Application.Pacientes.AddPaciente
                     {
                         paciente.AddPadecimiento(padecimiento.IdPadecimiento);
                     }
-                }           
+                }
                 await _pacienteRepository.AddPacienteAsync(paciente);
             }
             catch (Exception ex)

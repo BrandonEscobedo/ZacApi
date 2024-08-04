@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Pacientes.AddPaciente
+namespace Application.Pacientes.Command.AddPaciente
 {
-    public record AddPacienteCommand(PacienteRequest Paciente):IRequest;
+    public record AddPacienteCommand(PacienteRequest Paciente) : IRequest;
 }
