@@ -12,7 +12,7 @@ using Persistence.ContextDb;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ZacContext))]
-    [Migration("20240804045538_init")]
+    [Migration("20240815203258_init")]
     partial class init
     {
         /// <inheritdoc />

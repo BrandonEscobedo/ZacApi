@@ -1,14 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Domain.DbModels;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.DbModels.Pacientes;
-using System.Reflection.Emit;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
 namespace Persistence.ContextDb
 {
     public partial class ZacContext : DbContext
@@ -19,13 +12,14 @@ namespace Persistence.ContextDb
         public virtual DbSet<PacientePersonales> PacientePersonales { get; set; }
         public virtual DbSet<PacienteContacto> PacienteContacto { get; set; }
         public virtual DbSet<PacienteSintomasAntecedentes> PacienteSintomasAntecedentes { get; set; }
-
         public virtual DbSet<Padecimiento> Padecimientos { get; set; }
         public virtual DbSet<PacientePadecimiento> PacientePadecimientos { get; set; }
+        public virtual DbSet<Ingrediente> Ingredientes { get; set; }
+        public virtual DbSet<TipoReceta> TipoRecetas { get; set; }
+        public virtual DbSet<Recetas> Recetas { get; set; }
         public ZacContext(DbContextOptions<ZacContext> options)
             :base(options)
-        {
-        
+        {        
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,7 +34,6 @@ namespace Persistence.ContextDb
                         property.SetValueConverter(dateTimeConverter);
                     }
                 }
-
             }
                 builder.Entity<PacienteContacto>(entity =>
             {
@@ -50,11 +43,10 @@ namespace Persistence.ContextDb
             });
             builder.Entity<PacientePersonales>(entity =>
             {
-                entity.Property(x => x.PrimerNombre).HasMaxLength(20);
-                entity.Property(x => x.SegundoNombre).HasMaxLength(20);
-                entity.Property(x => x.PrimerApellido).HasMaxLength(20);
-                entity.Property(x => x.SegundoApellido).HasMaxLength(20);
+                entity.Property(x => x.Nombres).HasMaxLength(50);
+                entity.Property(x => x.Apellido).HasMaxLength(50);
                 entity.Property(x => x.Genero).HasConversion<string>();
+                entity.Property(x => x.Genero).HasMaxLength(10);
             });
             builder.Entity<Paciente>(entity =>
             {
@@ -118,7 +110,27 @@ namespace Persistence.ContextDb
                 entity.Property(p => p.Descripcion).HasMaxLength(500);
                 entity.HasIndex(p => p.Nombre).IsUnique();
             });
-
+            builder.Entity<Ingrediente>(entity =>
+            {
+                entity.HasKey(x => x.IdIngrediente);
+                entity.Property(x => x.TipoIngrediente).HasConversion<string>();
+                entity.Property(x => x.TipoIngrediente).HasMaxLength(30);
+                entity.HasOne(x => x.AlimentoNav)
+                .WithMany(x => x.IngredienteNav)
+                .HasForeignKey(x => x.IdAlimento);
+            });
+            builder.Entity<TipoReceta>(entity =>
+            {
+                entity.HasKey(x => x.IdTipoReceta);
+                entity.Property(x => x.NombreReceta).HasMaxLength(60);
+            });
+            builder.Entity<Recetas>(entity =>
+            {
+                entity.HasKey(x => x.IdTipoReceta);
+                entity.HasOne(x => x.TipoRecetaNav)
+                .WithMany(x => x.Recetas)
+                .HasForeignKey(x => x.IdTipoReceta);
+            });
         }
     }
 }

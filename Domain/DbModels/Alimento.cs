@@ -11,12 +11,17 @@ namespace Domain.DbModels
         public Unidad Unidad { get; private set; }
         public string Nombre { get; private set; } = string.Empty;
         public CategoriaAlimento? categoriaAlimentoNav { get; set; }
+        public List<Ingrediente>? IngredienteNav { get; set; }    
         public Alimento(int cantidad, int idCategoria, Unidad unidad, string nombre)
         {
             Cantidad = cantidad;
             IdCategoria = idCategoria;
             Unidad = unidad;
             Nombre = nombre;
+        }
+        public Alimento()
+        {
+            
         }
     }
 }

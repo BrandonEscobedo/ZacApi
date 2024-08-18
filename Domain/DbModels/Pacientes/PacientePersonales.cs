@@ -19,10 +19,9 @@ namespace Domain.DbModels.Pacientes
         public DateTime FechaNacimiento { get; set; }
         public Genero Genero { get; set; }
         public short Edad { get; set; }
-        public string PrimerNombre { get;  set; }
-        public string? SegundoNombre { get;  set; }
-        public string PrimerApellido { get;  set; }
-        public string SegundoApellido { get;  set; }
+        public string Nombres { get;  set; }
+        public string Apellido { get;  set; }
+
 
     }
 }
