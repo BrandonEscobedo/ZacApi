@@ -29,7 +29,7 @@ namespace Application.Pacientes.Command.AddPaciente
                     pacientePersonales.Genero = genero;
                 }
                 var paciente = new Paciente(
-                    pacientePersonales,
+                    pacientePersonales, 
                     pacienteContacto,
                     pacienteSintomas);
                 if (request.Paciente.PadecimientosRequest != null)

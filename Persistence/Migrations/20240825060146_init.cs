@@ -54,6 +54,20 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TipoRecetas",
+                columns: table => new
+                {
+                    IdTipoReceta = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NombreReceta = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
+                    Descripcion = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoRecetas", x => x.IdTipoReceta);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Alimentos",
                 columns: table => new
                 {
@@ -102,12 +116,10 @@ namespace Persistence.Migrations
                 {
                     IdPaciente = table.Column<Guid>(type: "uuid", nullable: false),
                     FechaNacimiento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Genero = table.Column<string>(type: "text", nullable: false),
+                    Genero = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     Edad = table.Column<short>(type: "smallint", nullable: false),
-                    PrimerNombre = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    SegundoNombre = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
-                    PrimerApellido = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    SegundoApellido = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
+                    Nombres = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Apellido = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,6 +177,53 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Recetas",
+                columns: table => new
+                {
+                    IdReceta = table.Column<Guid>(type: "uuid", nullable: false),
+                    NombreReceta = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    ModoPreparacion = table.Column<string>(type: "text", nullable: false),
+                    IdTipoReceta = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recetas", x => x.IdReceta);
+                    table.ForeignKey(
+                        name: "FK_Recetas_TipoRecetas_IdTipoReceta",
+                        column: x => x.IdTipoReceta,
+                        principalTable: "TipoRecetas",
+                        principalColumn: "IdTipoReceta",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ingredientes",
+                columns: table => new
+                {
+                    IdIngrediente = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdAlimento = table.Column<int>(type: "integer", nullable: false),
+                    IdReceta = table.Column<Guid>(type: "uuid", nullable: false),
+                    TipoIngrediente = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    UnidadesTotales = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredientes", x => x.IdIngrediente);
+                    table.ForeignKey(
+                        name: "FK_Ingredientes_Alimentos_IdAlimento",
+                        column: x => x.IdAlimento,
+                        principalTable: "Alimentos",
+                        principalColumn: "IdAlimento",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ingredientes_Recetas_IdReceta",
+                        column: x => x.IdReceta,
+                        principalTable: "Recetas",
+                        principalColumn: "IdReceta",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Alimentos_IdCategoria",
                 table: "Alimentos",
@@ -177,6 +236,16 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ingredientes_IdAlimento",
+                table: "Ingredientes",
+                column: "IdAlimento");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingredientes_IdReceta",
+                table: "Ingredientes",
+                column: "IdReceta");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PacientePadecimientos_IdPadecimiento",
                 table: "PacientePadecimientos",
                 column: "IdPadecimiento");
@@ -186,13 +255,18 @@ namespace Persistence.Migrations
                 table: "Padecimientos",
                 column: "Nombre",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recetas_IdTipoReceta",
+                table: "Recetas",
+                column: "IdTipoReceta");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Alimentos");
+                name: "Ingredientes");
 
             migrationBuilder.DropTable(
                 name: "PacienteContacto");
@@ -207,13 +281,22 @@ namespace Persistence.Migrations
                 name: "PacienteSintomasAntecedentes");
 
             migrationBuilder.DropTable(
-                name: "CategoriaAlimentos");
+                name: "Alimentos");
+
+            migrationBuilder.DropTable(
+                name: "Recetas");
 
             migrationBuilder.DropTable(
                 name: "Padecimientos");
 
             migrationBuilder.DropTable(
                 name: "Paciente");
+
+            migrationBuilder.DropTable(
+                name: "CategoriaAlimentos");
+
+            migrationBuilder.DropTable(
+                name: "TipoRecetas");
         }
     }
 }

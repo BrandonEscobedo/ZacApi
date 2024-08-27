@@ -14,7 +14,7 @@ namespace Domain.DbModels
         public int IdTipoReceta { get; set; }
         public string NombreReceta { get;private set; }
         public string Descripcion { get;private set; }
-        public List<Recetas>? Recetas { get; set; }
+        public List<Receta>? Recetas { get; set; }
         public TipoReceta(string nombreReceta, string descripcion)
         {
             NombreReceta = nombreReceta;

@@ -1,5 +1,6 @@
 ﻿using Application.DTO.Request.Pacientes;
 using Application.DTO.Request.Padecimientos;
+using Application.DTO.Request.Recetas;
 using AutoMapper;
 using Domain.DbModels;
 using Domain.DbModels.Pacientes;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Utility
 {
-    public class AutoMapperApplicationProfile:Profile
+    public class AutoMapperApplicationProfile : Profile
     {
         public AutoMapperApplicationProfile()
         {
@@ -22,10 +23,12 @@ namespace Application.Utility
                 .ForMember(x => x.PacientePadecimientos, d => d.Ignore()).ReverseMap();
 
             CreateMap<PacientePersonales, PacientePersonalesRequest>()
-                .ForMember(x=>x.Genero ,src=>src.Ignore()).ReverseMap();
-            CreateMap<PacienteContacto, PacienteContactoRequest>().ReverseMap(); 
+                .ForMember(x => x.Genero, src => src.Ignore()).ReverseMap();
+            CreateMap<PacienteContacto, PacienteContactoRequest>().ReverseMap();
             CreateMap<PacienteSintomasAntecedentes, PacienteSintomasAntecedentesRequest>().ReverseMap();
             CreateMap<Padecimiento, PadecimientoRequest>().ReverseMap();
+            CreateMap<Receta, RecetaRequest>().ReverseMap();
+            CreateMap<Ingrediente, IngredienteRequest>().ReverseMap();
         }
     }
 }

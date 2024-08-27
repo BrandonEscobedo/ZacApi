@@ -16,7 +16,7 @@ namespace Persistence.ContextDb
         public virtual DbSet<PacientePadecimiento> PacientePadecimientos { get; set; }
         public virtual DbSet<Ingrediente> Ingredientes { get; set; }
         public virtual DbSet<TipoReceta> TipoRecetas { get; set; }
-        public virtual DbSet<Recetas> Recetas { get; set; }
+        public virtual DbSet<Receta> Recetas { get; set; }
         public ZacContext(DbContextOptions<ZacContext> options)
             :base(options)
         {        
@@ -123,13 +123,20 @@ namespace Persistence.ContextDb
             {
                 entity.HasKey(x => x.IdTipoReceta);
                 entity.Property(x => x.NombreReceta).HasMaxLength(60);
+                entity.HasIndex(x => x.NombreReceta).IsUnique();
             });
-            builder.Entity<Recetas>(entity =>
+            builder.Entity<Receta>(entity =>
             {
-                entity.HasKey(x => x.IdTipoReceta);
+                entity.HasKey(x => x.IdReceta);
+
                 entity.HasOne(x => x.TipoRecetaNav)
                 .WithMany(x => x.Recetas)
                 .HasForeignKey(x => x.IdTipoReceta);
+
+                entity.HasMany(x => x.Ingredientes)
+                .WithOne(x => x.RecetaNav)
+                .HasForeignKey(x => x.IdReceta);
+                entity.Property(x => x.NombreReceta).HasMaxLength(50);
             });
         }
     }

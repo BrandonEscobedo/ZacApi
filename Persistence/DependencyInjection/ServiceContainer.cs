@@ -16,6 +16,8 @@ namespace Persistence.DependencyInjection
             services.AddScoped<ICategoriaAlimentoRepository, CategoriaAlimentoRepository>();
             services.AddScoped<IAlimentoRepository, AlimentoRepository>();
             services.AddScoped<IPacienteRepository, PacienteRepository>();
+            services.AddScoped<ITipoRecetaRepository , TipoRecetaRepository>();
+            services.AddScoped<IRecetaRepository, RecetaRepository>();
             return services;
         }
     }

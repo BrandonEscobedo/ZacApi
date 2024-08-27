@@ -78,6 +78,35 @@ namespace Persistence.Migrations
                     b.ToTable("CategoriaAlimentos");
                 });
 
+            modelBuilder.Entity("Domain.DbModels.Ingrediente", b =>
+                {
+                    b.Property<Guid>("IdIngrediente")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdAlimento")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("IdReceta")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("TipoIngrediente")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
+                    b.Property<int>("UnidadesTotales")
+                        .HasColumnType("integer");
+
+                    b.HasKey("IdIngrediente");
+
+                    b.HasIndex("IdAlimento");
+
+                    b.HasIndex("IdReceta");
+
+                    b.ToTable("Ingredientes");
+                });
+
             modelBuilder.Entity("Domain.DbModels.PacientePadecimiento", b =>
                 {
                     b.Property<Guid>("IdPaciente")
@@ -142,6 +171,11 @@ namespace Persistence.Migrations
                     b.Property<Guid>("IdPaciente")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<short>("Edad")
                         .HasColumnType("smallint");
 
@@ -150,26 +184,13 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Genero")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
-                    b.Property<string>("PrimerApellido")
+                    b.Property<string>("Nombres")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<string>("PrimerNombre")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<string>("SegundoApellido")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<string>("SegundoNombre")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("IdPaciente");
 
@@ -224,6 +245,53 @@ namespace Persistence.Migrations
                     b.ToTable("Padecimientos");
                 });
 
+            modelBuilder.Entity("Domain.DbModels.Recetas", b =>
+                {
+                    b.Property<Guid>("IdReceta")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdTipoReceta")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ModoPreparacion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NombreReceta")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("IdReceta");
+
+                    b.HasIndex("IdTipoReceta");
+
+                    b.ToTable("Recetas");
+                });
+
+            modelBuilder.Entity("Domain.DbModels.TipoReceta", b =>
+                {
+                    b.Property<int>("IdTipoReceta")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdTipoReceta"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NombreReceta")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
+
+                    b.HasKey("IdTipoReceta");
+
+                    b.ToTable("TipoRecetas");
+                });
+
             modelBuilder.Entity("Domain.DbModels.Alimento", b =>
                 {
                     b.HasOne("Domain.DbModels.CategoriaAlimento", "categoriaAlimentoNav")
@@ -233,6 +301,25 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("categoriaAlimentoNav");
+                });
+
+            modelBuilder.Entity("Domain.DbModels.Ingrediente", b =>
+                {
+                    b.HasOne("Domain.DbModels.Alimento", "AlimentoNav")
+                        .WithMany("IngredienteNav")
+                        .HasForeignKey("IdAlimento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.DbModels.Recetas", "RecetaNav")
+                        .WithMany("Ingredientes")
+                        .HasForeignKey("IdReceta")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AlimentoNav");
+
+                    b.Navigation("RecetaNav");
                 });
 
             modelBuilder.Entity("Domain.DbModels.PacientePadecimiento", b =>
@@ -287,6 +374,22 @@ namespace Persistence.Migrations
                     b.Navigation("Paciente");
                 });
 
+            modelBuilder.Entity("Domain.DbModels.Recetas", b =>
+                {
+                    b.HasOne("Domain.DbModels.TipoReceta", "TipoRecetaNav")
+                        .WithMany("Recetas")
+                        .HasForeignKey("IdTipoReceta")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TipoRecetaNav");
+                });
+
+            modelBuilder.Entity("Domain.DbModels.Alimento", b =>
+                {
+                    b.Navigation("IngredienteNav");
+                });
+
             modelBuilder.Entity("Domain.DbModels.CategoriaAlimento", b =>
                 {
                     b.Navigation("AlimentosNav");
@@ -309,6 +412,16 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.DbModels.Padecimiento", b =>
                 {
                     b.Navigation("PacientePadecimientos");
+                });
+
+            modelBuilder.Entity("Domain.DbModels.Recetas", b =>
+                {
+                    b.Navigation("Ingredientes");
+                });
+
+            modelBuilder.Entity("Domain.DbModels.TipoReceta", b =>
+                {
+                    b.Navigation("Recetas");
                 });
 #pragma warning restore 612, 618
         }
