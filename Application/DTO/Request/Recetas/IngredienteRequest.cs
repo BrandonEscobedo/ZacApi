@@ -1,10 +1,4 @@
-﻿using Domain.DbModels;
-using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Enums;
 
 namespace Application.DTO.Request.Recetas
 {
@@ -12,6 +6,8 @@ namespace Application.DTO.Request.Recetas
     {
         public int IdAlimento { get;  set; }
         public string TipoIngrediente { get; set; } = string.Empty;
+        public  TipoIngrediente TipoIngredienteEnum { get;  set; }
+
         public int UnidadesTotales { get;  set; }
     }
 }

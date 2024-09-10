@@ -30,7 +30,7 @@ namespace Domain.DbModels.Pacientes
         {
 
         }
-        public void AddPadecimiento(int  Idpadecimiento)
+        public void AddPadecimiento(int Idpadecimiento)
         {
             if (Idpadecimiento != 0)
             {

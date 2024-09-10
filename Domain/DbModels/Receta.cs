@@ -30,9 +30,10 @@ namespace Domain.DbModels
         }
         public void AddIngrediente(Ingrediente ingrediente)
         {
-            if(ingrediente.IdIngrediente!=Guid.Empty)
+            if (ingrediente.IdIngrediente != Guid.Empty)
             {
-            _ingredientes.Add(ingrediente);
+                ingrediente.IdReceta = this.IdReceta;
+                _ingredientes.Add(ingrediente);
             }
         }
     }

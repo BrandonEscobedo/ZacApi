@@ -1,4 +1,5 @@
 ﻿using Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace Domain.DbModels
 {
@@ -8,6 +9,7 @@ namespace Domain.DbModels
         public int? IdAlimento { get; private set; }
         public int Cantidad { get; private set; }
         public int IdCategoria { get; private set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public Unidad Unidad { get; private set; }
         public string Nombre { get; private set; } = string.Empty;
         public CategoriaAlimento? categoriaAlimentoNav { get; set; }

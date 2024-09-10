@@ -19,10 +19,10 @@ namespace Application.Alimentos.AddAlimento
                 //Agregar Fluent Validation
 
             }
-                var alimento = new Alimento(
+            var alimento = new Alimento(
                 request.Cantidad,
                 request.IdCategoria,
-                unidad,
+               unidad,
                 request.Nombre
                 );
             await _alimentoRepository.AddAlimentoAsync(alimento);

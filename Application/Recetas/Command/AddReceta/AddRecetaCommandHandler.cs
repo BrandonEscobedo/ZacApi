@@ -6,26 +6,29 @@ using MediatR;
 
 namespace Application.Recetas.Command.AddReceta
 {
-    internal sealed class AddRecetaCommandHandler(IRecetaRepository _recetaRepository,IMapper mapper) : IRequestHandler<AddRecetaCommand>
+    internal sealed class AddRecetaCommandHandler(IRecetaRepository _recetaRepository ) : IRequestHandler<AddRecetaCommand>
     {
         public async Task Handle(AddRecetaCommand request, CancellationToken cancellationToken)
         {
-            var receta = mapper.Map<Receta>(request);
-           
-            if (receta.Ingredientes != null)
+            var receta = new Receta(
+                request.RecetaRequest.IdTipoReceta,
+                request.RecetaRequest.ModoPreparacion,
+                request.RecetaRequest.ModoPreparacion
+                );
+            foreach (var ingredienteRequest in request.RecetaRequest.Ingredientes)
             {
-        
-                foreach (var ingredienteRequest in request.RecetaRequest.Ingredientes)
+                if (!Enum.TryParse<TipoIngrediente>(ingredienteRequest.TipoIngrediente, true, out var tipoIngrediente))
                 {
-                    if (!Enum.TryParse<Genero>(ingredienteRequest.TipoIngrediente, true, out var tipoIngrediente))
-                    {
-                        //Agregar Fluent Validation
-                    }
-                    else
-                    {
-                        
-                    }          
-                }      
+                    //Agregar Fluent Validation
+                }
+
+                var ingrediente = new Ingrediente(
+                  tipoIngrediente,
+                    ingredienteRequest.IdAlimento,
+                    ingredienteRequest.UnidadesTotales,
+                    Guid.Empty
+                    );
+                receta.AddIngrediente(ingrediente);
             }
             await _recetaRepository.AddReceta(receta);
         }

@@ -27,8 +27,9 @@ namespace Application.Utility
             CreateMap<PacienteContacto, PacienteContactoRequest>().ReverseMap();
             CreateMap<PacienteSintomasAntecedentes, PacienteSintomasAntecedentesRequest>().ReverseMap();
             CreateMap<Padecimiento, PadecimientoRequest>().ReverseMap();
+            CreateMap<IngredienteRequest, Ingrediente>().ForMember(dest=>dest.TipoIngrediente , x=>x.MapFrom(s=>s.TipoIngredienteEnum)).ReverseMap();
             CreateMap<Receta, RecetaRequest>().ReverseMap();
-            CreateMap<Ingrediente, IngredienteRequest>().ReverseMap();
+
         }
     }
 }

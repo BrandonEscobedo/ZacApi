@@ -18,6 +18,8 @@ app.UseHttpsRedirection();
 app.CategoriaAlimentosEndPoints();
 app.PacienteEndPoints();
 app.AlimentosEndPoints();
+app.TipoRecetaEndPoints();
+app.RecetasEndPoints();
 app.Run();
 
 
